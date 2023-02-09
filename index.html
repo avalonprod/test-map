@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .list div {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .list .item {
+        list-style: none;
+        display: flex;
+        gap: 5px;
+      }
+      .list .item input {
+        border: 1px solid rgb(209, 209, 209);
+        height: 30px;
+        width: 240px;
+        border-radius: 5px;
+        padding: 3px 10px;
+      }
+      .add__item-button {
+        width: 90px;
+        height: 30px;
+        background-color: transparent;
+        color: darkgreen;
+        font-weight: 700;
+        font-size: 15px;
+        border: 1px solid darkgreen;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+      .add__item-button:hover {
+        background-color: rgba(0, 128, 0, 0.356);
+      }
+      .list__item-btn {
+        width: 90px;
+        height: 30px;
+        background: transparent;
+
+        font-weight: 700;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .edit {
+        border: 1px solid blue;
+        color: darkblue;
+        display: none;
+      }
+
+      .edit.active {
+        display: block;
+      }
+      .edit:hover {
+        background: rgba(0, 0, 255, 0.356);
+      }
+
+      .delete {
+        border: 1px solid darkred;
+        color: darkred;
+      }
+      .delete:hover {
+        background: rgba(139, 0, 0, 0.356);
+      }
+
+      .save {
+        border: 1px solid green;
+        color: darkgreen;
+        display: none;
+      }
+
+      .save.active {
+        display: block;
+      }
+      .save:hover {
+        background: rgba(0, 128, 0, 0.356);
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+          "Helvetica Neue", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+          monospace;
+      }
+
+      .list-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="list__item">
+      <ul class="list"></ul>
+    </div>
+
+    <div class="add__item">
+      <form action="" class="form">
+        <ul class="list">
+          <div>
+            <li class="item">
+              <input type="text" id="href" placeholder="href" name="href" />
+            </li>
+            <li class="item">
+              <input
+                type="text"
+                id="url-marker"
+                placeholder="url-marker"
+                name="urlMarker"
+              />
+            </li>
+            <li class="item">
+              <input type="text" id="title" placeholder="title" name="title" />
+            </li>
+            <li class="item">
+              <input type="text" id="text" placeholder="text" name="text" />
+            </li>
+            <li class="item">
+              <input
+                type="text"
+                id="url-img"
+                placeholder="url-img"
+                name="urlImg"
+              />
+            </li>
+            <li class="item">
+              <input type="number" id="lat" placeholder="lat" name="lat" />
+            </li>
+            <li class="item">
+              <input type="number" id="lng" placeholder="lng" name="lng" />
+            </li>
+            <li class="item">
+              <input type="text" id="name" placeholder="name" name="name" />
+            </li>
+            <li class="item">
+              <input type="text" id="url" placeholder="url" name="url" />
+            </li>
+            <li class="item">
+              <button class="add__item-button">Save</button>
+            </li>
+          </div>
+        </ul>
+      </form>
+    </div>
+
+    <script>
+      const form = document.querySelector(".form");
+
+      const href = form.querySelector("#href");
+      const urlMarker = form.querySelector("#url-marker");
+      const title = form.querySelector("#title");
+      const text = form.querySelector("#text");
+      const urlImg = form.querySelector("#url-img");
+      const lat = form.querySelector("#lat");
+      const lng = form.querySelector("#lng");
+      const addItemButton = form.querySelector(".add__item-button");
+
+
+ 
+
+      const list = document.querySelector(".list");
+      let disabled = false;
+      function updateList(data) {
+        data.forEach((item) => {
+      
+          list.innerHTML += `
+            <div>
+        <li class="item">
+                <input type="text" 
+                    id="hrefPage"
+                    value="${item.href}"
+                    ${disabled ? "disabled" : ""}
+                    name='href'
+                
+                />
+            </li>
+            <li class="item">
+                <input type="text" 
+                id="urlMarkerPage"
+                    value=${item.urlImgMarker}
+                    ${disabled ? "disabled" : ""}
+                    name='urlMarker'
+            
+                />
+            </li>
+            <li class="item">
+                <input type="text" 
+                id="titlePage"
+                    value=${item.dataPopup.title}
+                    ${disabled ? "disabled" : ""}
+                    name='title'
+                
+                />
+            </li>
+            <li class="item">
+                <input type="text" 
+                id="textPage"
+                    value=${item.dataPopup.text}
+                    ${disabled ? "disabled" : ""}
+                    name='text'
+               
+                />
+            </li>
+            <li class="item">
+               
+                <input type="text" 
+                id="urlImgPage"
+                    value=${item.dataPopup.urlImg}
+                    ${disabled ? "disabled" : ""}
+                    name='urlImg'
+            
+                />
+            </li>
+            <li class="item">
+               
+                <input type="number"
+                id="latPage"
+                ${disabled ? "disabled" : ""}
+                    name='lat'
+           
+                    value=${item.bangalore.lat}
+                />
+            </li>
+            <li class="item">
+                
+                <input type="number" 
+                id="lngPage"
+                    value=${item.bangalore.lat}
+                    ${disabled ? "disabled" : ""}
+                    name='lng'
+          
+                />
+            </li>
+            <li class="item">
+                <input type="text" 
+                    value='sdf'
+                    ${disabled ? "disabled" : ""}
+                    name=''
+                
+                />
+            </li>
+            <li class="item">
+                <input type="text" 
+                    value='sdf'
+                    ${disabled ? "disabled" : ""}
+                    name=''
+                
+                />
+            </li>
+            <li class='item'>
+                <button class='edit list__item-btn active'
+                   
+             
+         
+                >Edit</button>
+                <button class='save list__item-btn active'
+                    
+             
+            
+                >Save</button>
+                <button class="delete list__item-btn"
+            
+                >
+                    Delete
+                </button>
+            </li>
+            </div>
+        `;
+        redyRender(data)
+        });
+      }
+
+     async function getAllPagesReq() {
+       await fetch("http://localhost:8000/api/get-pages-data")
+          .then((data) => data.json())
+          .then((res) => updateList(res));
+      }
+
+      async function postPageReq(data) {
+        return fetch(
+          "https://google-map-prod.onrender.com/api/post-pages-data",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        ).then((res) => getAllPagesReq());
+      }
+      getAllPagesReq();
+
+      async function updatePageReq(data) {
+        await fetch(
+          "http://localhost:8000/api/update-page-data",
+          {
+            method: "PATCH",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+              "Accept": "*/*"
+            },
+          }
+        ).then((res) => res)
+        .then(data => data);
+        console.log(data)
+      
+      }
+      addItemButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        let page = {
+          href: "",
+          urlImgMarker: "",
+          bangalore: {
+            lat: 0,
+            lng: 0,
+          },
+          dataPopup: {
+            title: "",
+            text: "",
+            urlImg: "",
+            links: [
+              {
+                name: "ds",
+                url: "dfs",
+              },
+            ],
+          },
+        };
+
+        let hrefValue = href.value;
+        let urlMarkerValue = urlMarker.value;
+        let titleValue = title.value;
+        let textValue = text.value;
+        let urlImgValue = urlImg.value;
+        let latValue = lat.value;
+        let lngValue = lng.value;
+        page.href = hrefValue;
+        page.urlImgMarker = urlMarkerValue;
+        page.bangalore.lat = +latValue;
+        page.bangalore.lng = +lngValue;
+        page.dataPopup.title = titleValue;
+        page.dataPopup.text = textValue;
+        page.dataPopup.urlImg = urlImgValue;
+        postPageReq(page)
+        
+      });
+
+      function redyRender(data) {
+       
+        const hrefPage = document.querySelector("#hrefPage");
+      const urlMarkerPage = document.querySelector("#urlMarkerPage");
+      const titlePage = document.querySelector("#titlePage");
+      const textPage = document.querySelector("#textPage");
+      const urlImgPage = document.querySelector("#urlImgPage");
+      const latPage = document.querySelector("#latPage");
+      const lngPage = document.querySelector("#lngPage");
+
+
+        const buttonEdit = document.querySelectorAll(".edit");
+        const buttonSave = document.querySelectorAll(".save");
+
+   
+        buttonSave.forEach((item, i) => {
+            buttonSave[i].addEventListener("click", () => {
+
+                let page = {
+                id: data[i].id,
+                href: "",
+                urlImgMarker: "",
+                bangalore: {
+                lat: 0,
+                lng: 0,
+                },
+                dataPopup: {
+                title: "",
+                text: "",
+                urlImg: "",
+                links: [
+                    {
+                    name: "ds",
+                    url: "dfs",
+                    },
+                ],
+                },
+            };
+
+        let hrefValue = hrefPage.value;
+        let urlMarkerValue = urlMarkerPage.value;
+        let titleValue = titlePage.value;
+        let textValue = textPage.value;
+        let urlImgValue = urlImgPage.value;
+        let latValue = latPage.value;
+        let lngValue = lngPage.value;
+        page.href = hrefValue;
+        page.urlImgMarker = urlMarkerValue;
+        page.bangalore.lat = +latValue;
+        page.bangalore.lng = +lngValue;
+        page.dataPopup.title = titleValue;
+        page.dataPopup.text = textValue;
+        page.dataPopup.urlImg = urlImgValue;
+
+                console.log(data[i])
+                updatePageReq(page)
+                console.log(page)
+            })
+        })
+        // buttonEdit.forEach((item, i) => {
+         
+        //   item.addEventListener("click", () => {
+        //     disabled = false;
+          
+        //     item.classList.remove("active");
+        //     buttonSave[i].classList.add("active");
+            
+        //   });
+        // });
+      }
+    </script>
+  </body>
+</html>
